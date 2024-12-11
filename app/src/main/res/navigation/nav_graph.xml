@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/authorization"
     >
 
     <fragment
         android:id="@+id/authorization"
-        android:name="com.example.sneakersshop.AuthorizationFragment"
+        android:name="com.example.sneakersshop.Authorization.AuthorizationFragment"
         >
         <action
             android:id="@+id/action_home_to_store"
@@ -17,8 +18,12 @@
 
     <fragment
         android:id="@+id/catalog"
-        android:name="com.example.sneakersshop.CatalogFragment">
+        android:name="com.example.sneakersshop.Catalog.CatalogFragment">
 
     </fragment>
 
+    <fragment
+        android:id="@+id/login"
+        android:name="com.example.sneakersshop.Login.LoginFragment">
+    </fragment>
 </navigation>

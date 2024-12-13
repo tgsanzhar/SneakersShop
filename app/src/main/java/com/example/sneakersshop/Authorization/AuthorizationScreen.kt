@@ -1,7 +1,11 @@
 package com.example.sneakersshop.Authorization
 
 import android.media.metrics.Event
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -36,7 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.sneakersshop.R
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun AuthorizationScreen(
     modifier: Modifier = Modifier,
@@ -46,7 +50,7 @@ fun AuthorizationScreen(
 
     Box(
         Modifier.fillMaxSize()
-            .padding(horizontal = 16.dp, vertical = 24.dp)
+            .padding(horizontal = 16.dp, vertical = 36.dp)
     ) {
         Column {
             Box (
@@ -65,7 +69,7 @@ fun AuthorizationScreen(
 
                 Text(
                     modifier = modifier.align(Alignment.Center),
-                    text = "Welcome back!",
+                    text = "New User",
                     textAlign = TextAlign.Center,
                     fontSize = 17.sp,
                     fontWeight = FontWeight(600),
@@ -119,6 +123,7 @@ fun AuthorizationScreen(
                     modifier = Modifier.padding(8.dp)
                 )
                 TextField(
+                    //PASSWORD
                     modifier = Modifier.fillMaxWidth()
                         .onFocusChanged {
                             onEvent (AuthorizationEvent.onPasswordTextFocused(it.isFocused))
@@ -153,6 +158,63 @@ fun AuthorizationScreen(
                         )
                     }
                 )
+
+                Spacer(
+                    modifier = Modifier.padding(8.dp)
+                )
+
+                TextField(
+                    //PASSWORD REPEAT
+                    modifier = Modifier.fillMaxWidth()
+                        .onFocusChanged {
+                            onEvent (AuthorizationEvent.onPasswordRepeatTextFocused(it.isFocused))
+                        }
+                        .border(
+                            width = if (state.passwordRepeatFocused) 2.dp else (-1).dp,
+                            color = Color(0xFF000000),
+                            shape = RoundedCornerShape(4.dp)
+                        ),
+                    visualTransformation = PasswordVisualTransformation(),
+                    value = state.passwordRepeat,
+                    onValueChange = {onEvent(AuthorizationEvent.onPasswordRepeatTextChanged(it))},
+                    singleLine = true,
+                    shape = RoundedCornerShape(4.dp),
+                    textStyle = TextStyle(
+                        fontWeight = FontWeight(400),
+                        fontSize = 16.sp,
+                    ),
+                    colors = TextFieldDefaults.colors().copy(
+                        focusedContainerColor = Color(0xFFF6F6F6),
+                        unfocusedContainerColor = Color(0xFFF6F6F6),
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                    ),
+
+                    placeholder = {
+                        Text(
+                            text = "Repeat Password",
+                            fontWeight = FontWeight(400),
+                            fontSize = 16.sp,
+                            color = Color(0xFF8E8E93)
+                        )
+                    }
+                )
+                // To login
+                Text(
+                    modifier = Modifier
+                        .padding( vertical = 12.dp, horizontal = 4.dp)
+                        .fillMaxWidth()
+                        .combinedClickable(
+                            onClick = { onEvent(AuthorizationEvent.onClickTextToLogin) },
+                            indication = null,
+                            interactionSource = remember { MutableInteractionSource() }
+                        ),
+                    color = Color(0xFF0000FF),
+                    text = "I have already account!",
+                    textAlign = TextAlign.Right,
+                )
+
+
             }
         }
 

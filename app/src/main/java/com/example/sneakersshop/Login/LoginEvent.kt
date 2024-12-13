@@ -3,6 +3,7 @@ package com.example.sneakersshop.Login
 sealed interface LoginEvent {
 
     object onClick : LoginEvent
+    object onClickTextToAuthorization : LoginEvent
     data class onUsernameTextChanged (val text: String) : LoginEvent
     data class onPasswordTextChanged (val text: String) : LoginEvent
 

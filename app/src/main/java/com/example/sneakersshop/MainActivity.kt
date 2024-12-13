@@ -5,10 +5,13 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.mutableStateListOf
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.fragment.NavHostFragment
 
+
 class MainActivity : FragmentActivity(R.layout.main_activity) {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -18,4 +21,5 @@ class MainActivity : FragmentActivity(R.layout.main_activity) {
 
         navController.setGraph(R.navigation.nav_graph)
     }
+
 }

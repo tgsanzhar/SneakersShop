@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.NavHostFragment.Companion.findNavController
 import androidx.navigation.fragment.findNavController
 
 class LoginFragment : Fragment() {
@@ -19,7 +18,7 @@ class LoginFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 LoginScreen (
-                    onEvent = { event -> viewModel.dispatch(event, navController) },
+                    onEvent = { event -> viewModel.dispatch(event, navController, requireContext()) },
                     state = viewModel.state.value
                 )
             }

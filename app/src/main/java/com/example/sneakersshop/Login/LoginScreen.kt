@@ -1,6 +1,9 @@
 package com.example.sneakersshop.Login
 import android.media.metrics.Event
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -34,9 +37,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.sneakersshop.Authorization.AuthorizationEvent
 import com.example.sneakersshop.R
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
@@ -46,7 +50,7 @@ fun LoginScreen(
 
     Box(
         Modifier.fillMaxSize()
-            .padding(horizontal = 16.dp, vertical = 24.dp)
+            .padding(horizontal = 16.dp, vertical = 36.dp)
     ) {
         Column {
             Box (
@@ -153,6 +157,20 @@ fun LoginScreen(
                         )
                     }
                 )
+                // To author
+                Text(
+                    modifier = Modifier
+                        .padding( vertical = 12.dp, horizontal = 4.dp)
+                        .fillMaxWidth()
+                        .combinedClickable(
+                            onClick = { onEvent(LoginEvent.onClickTextToAuthorization) },
+                            indication = null,
+                            interactionSource = remember { MutableInteractionSource() }
+                        ),
+                    color = Color(0xFF0000FF),
+                    text = "I have already account!",
+                    textAlign = TextAlign.Right,
+                )
             }
         }
 
@@ -173,7 +191,7 @@ fun LoginScreen(
             onClick = { onEvent (LoginEvent.onClick) }
         ) {
             Text(
-                text = "Sign In",
+                text = "Login",
                 fontSize = 17.sp,
                 fontWeight = FontWeight(600)
             )

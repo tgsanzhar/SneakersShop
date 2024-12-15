@@ -1,4 +1,4 @@
-package com.example.sneakersshop.Authorization
+package com.example.sneakersshop.Fragments.Authorization
 
 data class AuthorizationState(
     val username: String,

@@ -1,7 +1,9 @@
-package com.example.sneakersshop.Login
+package com.example.sneakersshop.Fragments.Authorization
+
 import android.media.metrics.Event
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
@@ -18,7 +20,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -37,15 +38,14 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.sneakersshop.Authorization.AuthorizationEvent
 import com.example.sneakersshop.R
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun LoginScreen(
+fun AuthorizationScreen(
     modifier: Modifier = Modifier,
-    onEvent: (LoginEvent) -> Unit,
-    state: LoginState
+    onEvent: (AuthorizationEvent) -> Unit,
+    state: AuthorizationState
 ) {
 
     Box(
@@ -69,7 +69,7 @@ fun LoginScreen(
 
                 Text(
                     modifier = modifier.align(Alignment.Center),
-                    text = "Welcome back!",
+                    text = "New User",
                     textAlign = TextAlign.Center,
                     fontSize = 17.sp,
                     fontWeight = FontWeight(600),
@@ -85,7 +85,7 @@ fun LoginScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .onFocusChanged {
-                            onEvent (LoginEvent.onUsernameTextFocused(it.isFocused))
+                            onEvent (AuthorizationEvent.onUsernameTextFocused(it.isFocused))
                         }
                         .border(
                             width = if (state.usernameFocused) 2.dp else (-1).dp,
@@ -93,7 +93,7 @@ fun LoginScreen(
                             shape = RoundedCornerShape(4.dp)
                         ),
                     value = state.username,
-                    onValueChange = {onEvent(LoginEvent.onUsernameTextChanged(it))},
+                    onValueChange = {onEvent(AuthorizationEvent.onUsernameTextChanged(it))},
                     singleLine = true,
                     shape = RoundedCornerShape(4.dp),
                     textStyle = TextStyle(
@@ -123,9 +123,10 @@ fun LoginScreen(
                     modifier = Modifier.padding(8.dp)
                 )
                 TextField(
+                    //PASSWORD
                     modifier = Modifier.fillMaxWidth()
                         .onFocusChanged {
-                            onEvent (LoginEvent.onPasswordTextFocused(it.isFocused))
+                            onEvent (AuthorizationEvent.onPasswordTextFocused(it.isFocused))
                         }
                         .border(
                             width = if (state.passwordFocused) 2.dp else (-1).dp,
@@ -134,7 +135,7 @@ fun LoginScreen(
                         ),
                     visualTransformation = PasswordVisualTransformation(),
                     value = state.password,
-                    onValueChange = {onEvent(LoginEvent.onPasswordTextChanged(it))},
+                    onValueChange = {onEvent(AuthorizationEvent.onPasswordTextChanged(it))},
                     singleLine = true,
                     shape = RoundedCornerShape(4.dp),
                     textStyle = TextStyle(
@@ -157,13 +158,54 @@ fun LoginScreen(
                         )
                     }
                 )
-                // To author
+
+                Spacer(
+                    modifier = Modifier.padding(8.dp)
+                )
+
+                TextField(
+                    //PASSWORD REPEAT
+                    modifier = Modifier.fillMaxWidth()
+                        .onFocusChanged {
+                            onEvent (AuthorizationEvent.onPasswordRepeatTextFocused(it.isFocused))
+                        }
+                        .border(
+                            width = if (state.passwordRepeatFocused) 2.dp else (-1).dp,
+                            color = Color(0xFF000000),
+                            shape = RoundedCornerShape(4.dp)
+                        ),
+                    visualTransformation = PasswordVisualTransformation(),
+                    value = state.passwordRepeat,
+                    onValueChange = {onEvent(AuthorizationEvent.onPasswordRepeatTextChanged(it))},
+                    singleLine = true,
+                    shape = RoundedCornerShape(4.dp),
+                    textStyle = TextStyle(
+                        fontWeight = FontWeight(400),
+                        fontSize = 16.sp,
+                    ),
+                    colors = TextFieldDefaults.colors().copy(
+                        focusedContainerColor = Color(0xFFF6F6F6),
+                        unfocusedContainerColor = Color(0xFFF6F6F6),
+                        focusedIndicatorColor = Color.Transparent,
+                        unfocusedIndicatorColor = Color.Transparent,
+                    ),
+
+                    placeholder = {
+                        Text(
+                            text = "Repeat Password",
+                            fontWeight = FontWeight(400),
+                            fontSize = 16.sp,
+                            color = Color(0xFF8E8E93)
+                        )
+                    }
+                )
+                // To login
                 Text(
                     modifier = Modifier
                         .padding( vertical = 12.dp, horizontal = 4.dp)
                         .fillMaxWidth()
                         .combinedClickable(
-                            onClick = { onEvent(LoginEvent.onClickTextToAuthorization) },
+                            onClick = { onEvent(AuthorizationEvent.onClickTextToLogin) },
                             indication = null,
                             interactionSource = remember { MutableInteractionSource() }
                         ),
@@ -171,6 +213,8 @@ fun LoginScreen(
                     text = "I have already account!",
                     textAlign = TextAlign.Right,
                 )
+
+
             }
         }
 
@@ -188,10 +232,10 @@ fun LoginScreen(
                 contentColor = Color(0xFFFFFFFF),
                 disabledContainerColor = Color(0xFFFFFFFF),
             ),
-            onClick = { onEvent (LoginEvent.onClick) }
+            onClick = { onEvent (AuthorizationEvent.onClick) }
         ) {
             Text(
-                text = "Login",
+                text = "Sign In",
                 fontSize = 17.sp,
                 fontWeight = FontWeight(600)
             )

@@ -1,4 +1,4 @@
-package com.example.sneakersshop.Authorization
+package com.example.sneakersshop.Fragments.Authorization
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -6,7 +6,7 @@ import com.example.sneakersshop.Model.Entity.User
 @Dao
 interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(user: User)
+    suspend fun insert(user: User): Long
 
     @Delete
     suspend fun delete(user: User)

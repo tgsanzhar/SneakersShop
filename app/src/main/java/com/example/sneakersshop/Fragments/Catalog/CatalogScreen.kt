@@ -1,7 +1,11 @@
-package com.example.sneakersshop.Catalog
+package com.example.sneakersshop.Fragments.Catalog
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +27,7 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,28 +38,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.sneakersshop.Fragments.Cart.CartEvent
+import com.example.sneakersshop.Fragments.Profile.ProfileEvent
 import com.example.sneakersshop.R
 
-data class Boots(
-    val name: String,
-    val category: String,
-    val price: String,
-)
-
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun CatalogScreen(modifier: Modifier = Modifier) {
+fun CatalogScreen(modifier: Modifier = Modifier, onEvent: (CatalogEvent) -> Unit, state: CatalogState) {
 
-    val itemss = listOf (
-        Boots("Dolce & Gabbana", "Кеды с принтом граффити", "$1251"),
-        Boots("Off-White", "Кроссовки Off-Court 3.0", "1 • $551"),
-        Boots("Jordan", "Кеды с принтом граффити", "$1251"),
-        Boots("Jordan", "Кеды с принтом граффити", "$1251"),
-        Boots("Dolce & Gabbana", "Кеды с принтом граффити", "$1251"),
-        Boots("Off-White", "Кроссовки Off-Court 3.0", "1 • $551"),
-        Boots("Dolce & Gabbana", "Кеды с принтом граффити", "$1251"),
-        Boots("Off-White", "Кроссовки Off-Court 3.0", "1 • $551"),
-        Boots("Dolce & Gabbana", "Кеды с принтом граффити", "$1251"),
-    )
 
     Box {
 
@@ -83,7 +74,7 @@ fun CatalogScreen(modifier: Modifier = Modifier) {
                 contentPadding = PaddingValues(8.dp),
                 columns = GridCells.Fixed(2),
             ) {
-                items(itemss.size) { index ->
+                items(state.list.size) { index ->
                     // CARD
                     Column(
                         modifier = Modifier
@@ -99,25 +90,25 @@ fun CatalogScreen(modifier: Modifier = Modifier) {
                                 .size(166.dp, 166.dp)
                                 .clip(RoundedCornerShape(4.dp)),
                             contentScale = ContentScale.Crop,
-                            painter = painterResource(R.drawable.img_boot_image),
+                            painter = painterResource(state.list[index].drawable),
                             contentDescription = "Image"
                         )
                         Text(
                             modifier = Modifier.padding(2.dp),
-                            text = itemss[index].name,
+                            text = state.list[index].name,
                             fontSize = 13.sp,
                             fontWeight = FontWeight(600)
                         )
                         Text(
                             modifier = Modifier.padding(2.dp),
-                            text = itemss[index].category,
+                            text = state.list[index].category,
                             fontSize = 12.sp,
                             fontWeight = FontWeight(400),
                             color = Color(0xFF8E8E93)
                         )
                         Text(
                             modifier = Modifier.padding(2.dp),
-                            text = itemss[index].price,
+                            text = state.list[index].priceText,
                             fontSize = 12.sp,
                             fontWeight = FontWeight(600)
                         )
@@ -132,7 +123,9 @@ fun CatalogScreen(modifier: Modifier = Modifier) {
                                 disabledContentColor = Color(0xFF000000),
                                 disabledContainerColor = Color(0xFFFFFFFF),
                             ),
-                            onClick = {}
+                            onClick = {
+                                onEvent(CatalogEvent.onClickToBuy(state.list[index].id))
+                            }
                         ) {
                             Text(
                                 text = "Add to cart",
@@ -187,6 +180,11 @@ fun CatalogScreen(modifier: Modifier = Modifier) {
                     modifier = Modifier
                         .fillMaxHeight()
                         .width(76.dp)
+                        .combinedClickable(
+                            onClick = { onEvent( CatalogEvent.ToCart ) },
+                            indication = null,
+                            interactionSource = remember { MutableInteractionSource() }
+                        )
                 ) {
                     Icon(
                         modifier = Modifier
@@ -207,6 +205,11 @@ fun CatalogScreen(modifier: Modifier = Modifier) {
                     modifier = Modifier
                         .fillMaxHeight()
                         .width(76.dp)
+                        .combinedClickable(
+                            onClick = { onEvent( CatalogEvent.ToProfile ) },
+                            indication = null,
+                            interactionSource = remember { MutableInteractionSource() }
+                        )
                 ) {
                     Icon(
                         modifier = Modifier

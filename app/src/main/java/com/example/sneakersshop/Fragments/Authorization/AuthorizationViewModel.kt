@@ -1,4 +1,4 @@
-package com.example.sneakersshop.Authorization
+package com.example.sneakersshop.Fragments.Authorization
 
 import android.content.Context
 import android.util.Log
@@ -7,6 +7,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
+import androidx.navigation.NavOptions
+import com.example.sneakersshop.CurrentUser
 import com.example.sneakersshop.Model.DatabaseProvider
 import com.example.sneakersshop.Model.Entity.User
 import com.example.sneakersshop.R
@@ -54,10 +56,31 @@ class AuthorizationViewModel : ViewModel() {
                     if (!have_nickname){
                         viewModelScope.launch {
 
-                            val user = User(username = state.value.username, password = state.value.password)
-                            DatabaseProvider.getDatabase(context).userDao().insert(user)
+                            val user = User(0, username = state.value.username, password = state.value.password)
+                            val id = DatabaseProvider.getDatabase(context).userDao().insert(user)
+
+
+                            val sharedPreferences = context.getSharedPreferences("USER", Context.MODE_PRIVATE)
+                            sharedPreferences.edit()
+                                .putInt("ID", id.toInt())
+                                .putString("USERNAME", user.username)
+                                .putString("PASSWORD", user.password)
+                                .apply()
+
+
+                            CurrentUser.id = id.toInt()
+                            CurrentUser.username = user.username
+                            CurrentUser.password = user.password
+
+                            navController.navigate(
+                                R.id.action_authorization_to_store,
+                                null,
+                                NavOptions.Builder()
+                                    .setPopUpTo(R.id.nav_graph, true)
+                                    .build())
                         }
-                        navController.navigate(R.id.action_authorization_to_store)
+
+
 
                     }
 

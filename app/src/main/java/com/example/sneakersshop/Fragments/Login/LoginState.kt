@@ -1,4 +1,4 @@
-package com.example.sneakersshop.Login
+package com.example.sneakersshop.Fragments.Login
 
 data class LoginState(
     val username: String,

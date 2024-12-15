@@ -3,12 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/authorization"
+    app:startDestination="@id/login"
     >
 
     <fragment
         android:id="@+id/authorization"
-        android:name="com.example.sneakersshop.Authorization.AuthorizationFragment"
+        android:name="com.example.sneakersshop.Fragments.Authorization.AuthorizationFragment"
         >
         <action
             android:id="@+id/action_authorization_to_store"
@@ -20,15 +20,23 @@
         />
     </fragment>
 
+<!--    LOGIN     -->
     <fragment
         android:id="@+id/catalog"
-        android:name="com.example.sneakersshop.Catalog.CatalogFragment">
+        android:name="com.example.sneakersshop.Fragments.Catalog.CatalogFragment">
 
+        <action
+            android:id="@+id/action_catalog_to_profileFragment"
+            app:destination="@id/profile" />
+        <action
+            android:id="@+id/action_catalog_to_cartFragment"
+            app:destination="@id/cart" />
     </fragment>
 
+<!--    LOGIN     -->
     <fragment
         android:id="@+id/login"
-        android:name="com.example.sneakersshop.Login.LoginFragment">
+        android:name="com.example.sneakersshop.Fragments.Login.LoginFragment">
         <action
             android:id="@+id/action_login_to_authorization"
             app:destination="@+id/authorization"
@@ -38,4 +46,51 @@
             app:destination="@+id/catalog"
         />
     </fragment>
+
+
+<!--    PROFILE     -->
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.example.sneakersshop.Fragments.Profile.ProfileFragment"
+        android:label="ProfileFragment" >
+        <action
+            android:id="@+id/action_profile_to_cartFragment"
+            app:destination="@id/cart" />
+        <action
+            android:id="@+id/action_profile_to_catalog"
+            app:destination="@id/catalog" />
+        <action
+            android:id="@+id/action_profile_to_login"
+            app:destination="@id/login" />
+        <action
+            android:id="@+id/action_profile_to_ordersFragment"
+            app:destination="@id/ordersFragment" />
+    </fragment>
+
+
+<!--    CATALOG     -->
+    <fragment
+        android:id="@+id/cart"
+        android:name="com.example.sneakersshop.Fragments.Cart.CartFragment"
+        android:label="CatalogFragment" >
+        <action
+            android:id="@+id/action_cart_to_profile"
+            app:destination="@id/profile" />
+        <action
+            android:id="@+id/action_cart_to_catalog"
+            app:destination="@id/catalog" />
+    </fragment>
+    <fragment
+        android:id="@+id/ordersFragment"
+        android:name="com.example.sneakersshop.Fragments.Orders.OrdersFragment"
+        android:label="OrdersFragment" >
+        <action
+            android:id="@+id/action_ordersFragment_to_orderDetailFragment"
+            app:destination="@id/orderDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/orderDetailFragment"
+        android:name="com.example.sneakersshop.Fragments.OrderDetail.OrderDetailFragment"
+        android:label="OrderDetailFragment" />
+
 </navigation>
